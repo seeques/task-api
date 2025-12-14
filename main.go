@@ -15,6 +15,7 @@ func main() {
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 
 	server := api.NewServer()
+	defer server.ClosePool() // calls pool.Close() internally
 
 	go server.Start()
 
