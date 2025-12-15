@@ -26,10 +26,12 @@ func NewServer() *Server {
 	}
 
 	pgStorage := storage.NewPostgresStorage(pool)
+	h := handler.NewHandler(pgStorage)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Get("/health", handler.Health)
+	r.Get("/health", h.Health)
+	r.Post("/register", h.Register)
 
 	server := &http.Server{
 		Addr: cfg.Port,
