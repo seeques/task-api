@@ -28,13 +28,13 @@ func (s *PostgresStorage) SaveUser(ctx context.Context, usr *User) error {
 }
 
 func (s *PostgresStorage) GetUserByEmail(ctx context.Context, email string) (*User, error) {
-	sql := `SELECT id, password_hash, created_at FROM users WHERE email = $1`
+	query := `SELECT id, password_hash, created_at FROM users WHERE email = $1`
 
 	usr := &User{
 		Email: email,
 	}
 
-	err := s.pool.QueryRow(ctx, sql, email).Scan(usr.ID, usr.PasswordHash, usr.CreatedAt)
+	err := s.pool.QueryRow(ctx, query, email).Scan(&usr.ID, &usr.PasswordHash, &usr.CreatedAt)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil
