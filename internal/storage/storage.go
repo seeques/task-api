@@ -20,7 +20,7 @@ func (s *PostgresStorage) SaveUser(ctx context.Context, usr *User) error {
 	VALUES ($1, $2)
 	RETURNING id, created_at`
 
-	_, err := s.pool.QueryRow(ctx, sql, usr.Email, usr.PasswordHash).Scan(&usr.ID, &usr.CreatedAt)
+	err := s.pool.QueryRow(ctx, sql, usr.Email, usr.PasswordHash).Scan(&usr.ID, &usr.CreatedAt)
 	return err
 }
 
