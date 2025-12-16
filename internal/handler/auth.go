@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/rs/zerolog/log"
+	// "github.com/rs/zerolog/log"
 	"github.com/seeques/task-api/internal/auth"
 	"github.com/seeques/task-api/internal/response"
 	"github.com/seeques/task-api/internal/storage"
@@ -66,7 +66,8 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 
 	err = h.storage.SaveUser(r.Context(), usr)
 	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to save user's data")
+		response.RespondError(w, http.StatusInternalServerError, "user registration failed")
+		return
 	}
 
 	w.Header().Set("Content-type", "application/json")
