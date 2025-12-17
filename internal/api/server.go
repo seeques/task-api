@@ -35,9 +35,10 @@ func NewServer() *Server {
 	r.Post("/register", h.Register)
 	r.Post("/login", h.Login)
 
-	r.Group(func(r chi.Router){
+	r.Route("/tasks", func(r chi.Router) {
 		r.Use(m.Auth)
-		r.Post("/tasks", h.CreateTask)
+		r.Post("/", h.CreateTask)
+		r.Get("/{id}", h.GetTask)
 	})
 
 	server := &http.Server{
