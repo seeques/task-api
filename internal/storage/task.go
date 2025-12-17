@@ -18,6 +18,7 @@ type Task struct {
 
 type TaskStorage interface {
 	CreateTask(ctx context.Context, task *Task) error
+	GetTask(ctx context.Context, taskID int, userID int)
 }
 
 func (s *PostgresStorage) CreateTask(ctx context.Context, task *Task) error {
@@ -33,3 +34,22 @@ func (s *PostgresStorage) CreateTask(ctx context.Context, task *Task) error {
 	)
 	return err
 }
+
+func (s *PostgresStorage) GetTask(ctx context.Context, taskID int, userID int) (*Task, error) {
+	query := `SELECT * FROM tasks WHERE id = $1 AND user_id = $2
+	RETURNING title, description, completed, created_at, updated_at`
+
+	task := Task{
+		ID: taskID,
+		UserID: userID,
+	}
+
+	err := s.pool.QueryRow(ctx, query, taskID, userID).Scan(
+		&task.Title, 
+		&task.Description, 
+		&task.Completed, 
+		&task.CreatedAt, 
+		&task.UpdatedAt,
+	)
+	return &task, err
+} 
