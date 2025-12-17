@@ -1,4 +1,5 @@
 go.sum
 task-api
+bin
 
 .env
