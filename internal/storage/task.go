@@ -87,3 +87,27 @@ func (s *PostgresStorage) ListTasks(ctx context.Context, userID int) ([]Task, er
 
 	return tasks, nil
 }
+
+func (s *PostgresStorage) UpdateTask(ctx context.Context, task *Task) error {
+	query := `UPDATE tasks SET title = $1, description = $2, completed = $3, updated_at = NOW()
+	WHERE id = $4 AND user_id = $5
+	RETURNING id, user_id, title, description, completed, created_at, updated_at`
+
+	err := s.pool.QueryRow(ctx, query, 
+        task.Title, 
+        task.Description, 
+        task.Completed, 
+        task.ID, 
+        task.UserID,
+    ).Scan(
+        &task.ID,
+        &task.UserID,
+        &task.Title,
+        &task.Description,
+        &task.Completed,
+        &task.CreatedAt,
+        &task.UpdatedAt,
+    )
+
+	return err
+}
