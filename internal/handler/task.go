@@ -72,3 +72,17 @@ func (h *Handler) GetTask(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(task)
 }
+
+func (h *Handler) ListTasks(w http.ResponseWriter, r *http.Request) {
+	userID := storage.GetUserID(r)
+
+	tasks, err := h.storage.ListTasks(r.Context(), userID)
+	if err != nil {
+		response.RespondError(w, http.StatusInternalServerError, "unable to get tasks")
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(tasks)
+}
