@@ -39,6 +39,7 @@ func NewServer() *Server {
 		r.Use(m.Auth)
 		r.Post("/", h.CreateTask)
 		r.Get("/{id}", h.GetTask)
+		r.Get("/", h.ListTasks)
 	})
 
 	server := &http.Server{
