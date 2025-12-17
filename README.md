@@ -31,7 +31,7 @@ A RESTful task management API built with Go, PostgreSQL, and JWT authentication.
 
 1. Clone the repository
 ```bash
-   git clone https://github.com/yourusername/task-api.git
+   git clone https://github.com/seeques/task-api.git
    cd task-api
 ```
 
