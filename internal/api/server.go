@@ -41,6 +41,7 @@ func NewServer() *Server {
 		r.Get("/{id}", h.GetTask)
 		r.Get("/", h.ListTasks)
 		r.Put("/{id}", h.UpdateTask)
+		r.Delete("/{id}", h.DeleteTask)
 	})
 
 	server := &http.Server{

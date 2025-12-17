@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/jackc/pgx"
 )
 
 type Task struct {
@@ -110,4 +111,20 @@ func (s *PostgresStorage) UpdateTask(ctx context.Context, task *Task) error {
     )
 
 	return err
+}
+
+func (s *PostgresStorage) DeleteTask(ctx context.Context, taskID int, userID int) error {
+	query := `DELETE FROM tasks
+	WHERE id = $1 AND user_id = $2`
+
+	result, err := s.pool.Exec(ctx, query, taskID, userID)
+	if err != nil {
+		return err
+	}
+
+	if result.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+
+	return nil
 }

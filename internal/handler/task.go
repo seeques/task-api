@@ -144,3 +144,27 @@ func (h *Handler) UpdateTask(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     json.NewEncoder(w).Encode(task)
 }
+
+func (h *Handler) DeleteTask(w http.ResponseWriter, r *http.Request) {
+	userID := storage.GetUserID(r)
+
+	idStr := chi.URLParam(r, "id")
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        response.RespondError(w, http.StatusBadRequest, "invalid task id")
+        return
+    }
+
+	err = h.storage.DeleteTask(r.Context(), id, userID)
+
+	if errors.Is(err, pgx.ErrNoRows) {
+        response.RespondError(w, http.StatusNotFound, "task not found")
+        return
+    }
+    if err != nil {
+        response.RespondError(w, http.StatusInternalServerError, "delete failed")
+        return
+    }
+
+	w.WriteHeader(http.StatusNoContent)
+}
