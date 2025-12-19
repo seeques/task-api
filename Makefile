@@ -3,6 +3,9 @@
 up:
 	docker compose up -d
 
+up-test:
+	docker compose up -d postgres-test
+
 down:
 	docker compose down
 
