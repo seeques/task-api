@@ -40,7 +40,7 @@ A RESTful task management API built with Go, PostgreSQL, and JWT authentication.
    cp .env.example .env
 ```
 
-3. (Optional) Edit `.env` and change `JWT_SECRET` to your own value
+3. (Optional) Edit `.env` and change `JWT` to your own value
 
 4. Start the database
 ```bash
