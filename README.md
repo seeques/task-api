@@ -11,7 +11,7 @@ A RESTful task management API built with Go, PostgreSQL, and JWT authentication.
 
 ## Tech Stack
 
-- **Language:** Go 1.22
+- **Language:** Go 1.25.3
 - **Router:** chi
 - **Database:** PostgreSQL 16
 - **Authentication:** JWT (HS256)
@@ -21,7 +21,7 @@ A RESTful task management API built with Go, PostgreSQL, and JWT authentication.
 
 ### Prerequisites
 
-- Go 1.22+
+- Go 1.25.3
 - Docker and Docker Compose
 - migrate CLI
 
